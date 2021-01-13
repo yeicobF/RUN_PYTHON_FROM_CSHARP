@@ -1,0 +1,13 @@
+C:\Users\games_000.ASHJAC\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Documents\PROGRAMACIÓN\C#\Run Python from C#\bin\Debug\netcoreapp3.1\Run Python from C#.exe
+C:\Users\games_000.ASHJAC\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Documents\PROGRAMACIÓN\C#\Run Python from C#\bin\Debug\netcoreapp3.1\Run Python from C#.deps.json
+C:\Users\games_000.ASHJAC\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Documents\PROGRAMACIÓN\C#\Run Python from C#\bin\Debug\netcoreapp3.1\Run Python from C#.runtimeconfig.json
+C:\Users\games_000.ASHJAC\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Documents\PROGRAMACIÓN\C#\Run Python from C#\bin\Debug\netcoreapp3.1\Run Python from C#.runtimeconfig.dev.json
+C:\Users\games_000.ASHJAC\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Documents\PROGRAMACIÓN\C#\Run Python from C#\bin\Debug\netcoreapp3.1\Run Python from C#.dll
+C:\Users\games_000.ASHJAC\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Documents\PROGRAMACIÓN\C#\Run Python from C#\bin\Debug\netcoreapp3.1\Run Python from C#.pdb
+C:\Users\games_000.ASHJAC\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Documents\PROGRAMACIÓN\C#\Run Python from C#\obj\Debug\netcoreapp3.1\Run Python from C#.csprojAssemblyReference.cache
+C:\Users\games_000.ASHJAC\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Documents\PROGRAMACIÓN\C#\Run Python from C#\obj\Debug\netcoreapp3.1\Run Python from C#.AssemblyInfoInputs.cache
+C:\Users\games_000.ASHJAC\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Documents\PROGRAMACIÓN\C#\Run Python from C#\obj\Debug\netcoreapp3.1\Run Python from C#.AssemblyInfo.cs
+C:\Users\games_000.ASHJAC\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Documents\PROGRAMACIÓN\C#\Run Python from C#\obj\Debug\netcoreapp3.1\Run Python from C#.csproj.CoreCompileInputs.cache
+C:\Users\games_000.ASHJAC\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Documents\PROGRAMACIÓN\C#\Run Python from C#\obj\Debug\netcoreapp3.1\Run Python from C#.dll
+C:\Users\games_000.ASHJAC\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Documents\PROGRAMACIÓN\C#\Run Python from C#\obj\Debug\netcoreapp3.1\Run Python from C#.pdb
+C:\Users\games_000.ASHJAC\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\Documents\PROGRAMACIÓN\C#\Run Python from C#\obj\Debug\netcoreapp3.1\Run Python from C#.genruntimeconfig.cache
