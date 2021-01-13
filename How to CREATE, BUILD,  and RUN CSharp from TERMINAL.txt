@@ -32,6 +32,7 @@ In this text I will explain how to create and run a C# project from terminal.
 8.- And that is all you need to run a C# script.
 
 ------ OPTION 2: You created a solution ----------------------------------------
+    Wednesday, January 13th, 2021 [04:00 AM]
 
 1.- If you created a solution, then you will first have to compile your program.
     This is achieved by using the next command:
