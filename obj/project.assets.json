@@ -13,9 +13,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\games_000.ASHJAC\\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\\Documents\\PROGRAMACIÓN\\C#\\Run Python from C#\\Run Python from C#.csproj",
-      "projectName": "Run Python from C#",
-      "projectPath": "C:\\Users\\games_000.ASHJAC\\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\\Documents\\PROGRAMACIÓN\\C#\\Run Python from C#\\Run Python from C#.csproj",
+      "projectUniqueName": "C:\\Users\\games_000.ASHJAC\\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\\Documents\\PROGRAMACIÓN\\C#\\Run Python from C#\\RunPython_From_CSharp.csproj",
+      "projectName": "RunPython_From_CSharp",
+      "projectPath": "C:\\Users\\games_000.ASHJAC\\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\\Documents\\PROGRAMACIÓN\\C#\\Run Python from C#\\RunPython_From_CSharp.csproj",
       "packagesPath": "C:\\Users\\games_000.ASHJAC\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\games_000.ASHJAC\\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\\Documents\\PROGRAMACIÓN\\C#\\Run Python from C#\\obj\\",
       "projectStyle": "PackageReference",
