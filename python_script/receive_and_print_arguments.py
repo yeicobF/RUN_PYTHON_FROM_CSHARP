@@ -1,4 +1,4 @@
-# Miércoles, 13 de enero del 2021 [12:34 AM]
+# Miércoles, 13 de enero del 2021 [12:34 AM - 01:00 AM Aprox]
 # * CÓDIGO QUE RECIBIRÁ E IMPRIMIRÁ LOS ARGUMENTOS RECIBIDOS.
 # ! Este código correrá desde C#.
 

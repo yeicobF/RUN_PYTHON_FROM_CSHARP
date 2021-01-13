@@ -35,7 +35,7 @@ namespace Run_Python_From_CSharp
        private static void ExecutePythonFromCSharp(string[] arguments){
            // Creamos una variable en donde inicializaremos el proceso.
            // Para esto hay que utilizar System.Diagnostics.
-           var process = new ProcessStartInfo();
+           ProcessStartInfo process = new ProcessStartInfo();
            
            // Indicar la ruta del ejecutable de Python.
            string pythonPath = @"C:\Users\games_000.ASHJAC\AppData\Local\Programs\Python\Python38-32\python.exe";
