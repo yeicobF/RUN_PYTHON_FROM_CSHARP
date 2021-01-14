@@ -15,7 +15,7 @@ using System.Collections.Generic; // Aquí se encuentran las listas.
  * * Yo decidí utilizar procesos mejor, ya que IronPython al parecer tiene más
  *  limitaciones.
  * LINK: https://www.youtube.com/watch?v=g1VWGdHRkHs&ab_channel=AllTech
- * 
+ *  
  * * Martes, 12 de enero del 2020.
 */
 
@@ -29,10 +29,17 @@ namespace Run_Python_From_CSharp
             // Mandar el código y los argumentos.
             // Inicializar lista de string.
             List<string> args_list = new List<string>();
+
+            // Mandamos el nombre del código de Python, el cual está en el mismo
+            //  directorio.
+            string pythonScriptName = "python_script/receive_and_print_arguments.py";
+            // Agregamos el nombre del programa a la lista de argumentos.
+            args_list.Add(pythonScriptName);
+
             AskUserForArguments(ref args_list);
             // PrintUserInputArguments(args_list);
 
-            ExecutePythonFromCSharp(args_list.ToArray());
+            ExecutePythonFromCSharp(args_list);
 
             Console.ReadKey(); // Esperar a presionar tecla para terminar.
         }
@@ -41,7 +48,7 @@ namespace Run_Python_From_CSharp
 /* -------------------------------------------------------------------------- */
 /*                    MÉTODO PARA EJECUTAR Python desde C#.                   */
 /* -------------------------------------------------------------------------- */
-       private static void ExecutePythonFromCSharp(string[] arguments) {
+       private static void ExecutePythonFromCSharp(List<string> arguments) {
            // Creamos una variable en donde inicializaremos el proceso.
            // Para esto hay que utilizar System.Diagnostics.
            ProcessStartInfo pythonProgram = new ProcessStartInfo();
@@ -138,6 +145,21 @@ namespace Run_Python_From_CSharp
             Console.WriteLine("\n - RESULTADOS:\n");
             Console.WriteLine(results);
        }
+
+        /**
+         * * MÉTODO PARA GUARDAR LOS ARGUMENTOS COMO LISTA UTILIZANDO EL
+         *      ATRIBUTO: ProcessStartInfo.ArgumentList
+        */
+        private static void SaveArgumentsAsList(ref List<string> argsList){
+            
+        }
+        /**
+         * * MÉTODO PARA GUARDAR LOS ARGUMENTOS COMO CADENA UTILIZANDO EL
+         *      ATRIBUTO: ProcessStartInfo.Arguments
+        */
+        private static void SaveArgumentsAsString(){
+
+        }
 
 /* ----------------- MÉTODO PARA PEDIR ARGUMENTOS AL USUARIO ---------------- */
         private static void AskUserForArguments(ref List<string> args_list) {
