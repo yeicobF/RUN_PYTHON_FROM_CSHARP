@@ -26,8 +26,10 @@ class PythonExecuter {
 
     /** 
      * ! PRIMER VERSIÓN DEL MÉTODO PARA EJECUTAR Python desde C#.
+     * * Aquí tomamos como parámetro los argumentos recibidos y definimos el
+     *      programa de Python desde aquí.
     */
-    public void FirstVersionExecutePythonFromCSharp()
+    public void FirstVersionExecutePythonFromCSharp(List <string> arguments)
     {
         // Creamos una variable en donde inicializaremos el proceso.
         // Para esto hay que utilizar System.Diagnostics.
@@ -61,20 +63,13 @@ class PythonExecuter {
          * LINK: https://stackoverflow.com/questions/31014869/what-does-mean-before-a-string 
         */
 
-        
+       /** 
+        * Método para guardar los argumentos como una lista. No permite pasarlo
+        *   con "ref" por referencia. No sé si regresen modificados.
+       */
+        SaveArgumentsAsList(pythonProgram.ArgumentList, pythonScriptName, arguments);
 
-        // OPCIÓN 2 ARGUMENTOS: OTRA ALTERNATIVA (COMO LA QUE SALE EN EL VIDEO).
-        pythonProgram.Arguments = $"\"{pythonScriptName}\"";
-        foreach (string arg in arguments)
-        {
-            /** La cadena realmente iría como: ' "argumento"'
-             *  Lleva un espacio porque es como si en la terminal
-             *   corriera: 
-             *  
-             *       python pythonScriptName arg1 arg2 arg3 ...
-             */
-            pythonProgram.Arguments += $" \"{arg}\"";
-        }
+        
 
         // 3) PROCESS CONFIGURATION
         /** No ejecutar en la terminal. Se hace directamente desde el ejecutable.
@@ -127,7 +122,7 @@ class PythonExecuter {
      * * MÉTODO PARA GUARDAR LOS ARGUMENTOS COMO LISTA UTILIZANDO EL
      *      ATRIBUTO: ProcessStartInfo.ArgumentList
     */
-    private static void SaveArgumentsAsList(ref List <string> argsList,
+    private static void SaveArgumentsAsList(System.Collections.ObjectModel.Collection<string> argsList,
                                             string pythonScriptName,
                                             List <string> argsReceived)
     {
@@ -141,8 +136,22 @@ class PythonExecuter {
      * * MÉTODO PARA GUARDAR LOS ARGUMENTOS COMO CADENA UTILIZANDO EL
      *      ATRIBUTO: ProcessStartInfo.Arguments
     */
-    private static void SaveArgumentsAsString()
+    private static void SaveArgumentsAsString(string argsList,
+                                              string pythonScriptName,
+                                              List<string> argsReceived)
     {
-
+        // OPCIÓN 2 ARGUMENTOS: OTRA ALTERNATIVA (COMO LA QUE SALE EN EL VIDEO).
+        argsList = $"\"{pythonScriptName}\"";
+        
+        foreach (string arg in argsReceived)
+        {
+            /** La cadena realmente iría como: ' "argumento"'
+             *  Lleva un espacio porque es como si en la terminal
+             *   corriera: 
+             *  
+             *       python pythonScriptName arg1 arg2 arg3 ...
+             */
+            argsList += $" \"{arg}\"";
+        }
     }
 }
