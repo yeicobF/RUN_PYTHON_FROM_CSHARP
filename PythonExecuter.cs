@@ -25,8 +25,17 @@ class PythonExecuter {
         /** Inserta los elementos de una colección a la lista comenzando desde
          *      el índice indicado.*/
         this.arguments.InsertRange(1, arguments);
-    }
 
+        PrintArguments();
+    }
+    // Método para imprimir los argumentos del constructor.
+    void PrintArguments(){
+        // IMPRIMIR LOS ARGUMENTOS EN TOTAL.
+        Console.Write("\n -> ARGUMENTOS: ");
+        foreach(string arg in arguments)
+            Console.Write($"[{arg}] ");
+        Console.Write("\n");
+    }
     /** 
      * ! PRIMER VERSIÓN DEL MÉTODO PARA EJECUTAR Python desde C#.
      * * Aquí tomamos como parámetro los argumentos recibidos y definimos el
@@ -75,6 +84,9 @@ class PythonExecuter {
          * ? con "ref" por referencia. No sé si regresen modificados.
          * 
          * * YA VI QUE SÍ REGRESA MODIFICADO.
+         * 
+         * ! COMO LISTA SÍ MANDA TODO Y COMILLAS, ASÍ QUE ES LA MEJOR FORMA PARA
+         *      EVITAR CONFLICTOS.
         */
         SaveArgumentsAsList(pythonProgram.ArgumentList, pythonScriptName, receivedArgsList);
 
@@ -84,9 +96,12 @@ class PythonExecuter {
          *      modifique.
          * * NO REGRESA MODIFICADO. Por esta razón el método devolverá la cadena
          *      y se la asignaremos a la variable.
+         * 
+         * ! COMO CADENA NO GUARDA LAS COMILLAS NI NADA DE ESO. NO LAS PASA COMO
+         *      ARGUMENTOS DEL PROGRAMA.
         */
 
-        pythonProgram.Arguments = SaveArgumentsAsString(pythonScriptName, receivedArgsList);
+        // * pythonProgram.Arguments = SaveArgumentsAsString(pythonScriptName, receivedArgsList);
 
         // 3) PROCESS CONFIGURATION
         /** No ejecutar en la terminal. Se hace directamente desde el ejecutable.

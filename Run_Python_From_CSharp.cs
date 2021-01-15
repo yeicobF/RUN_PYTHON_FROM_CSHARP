@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic; // Aquí se encuentran las listas.
 /**
  * * PROGRAMA PARA CORRER PYTHON DESDE C#.
  * 
@@ -18,11 +16,37 @@ using System.Collections.Generic; // Aquí se encuentran las listas.
  * * Martes, 12 de enero del 2020.
 */
 
+using System;
+// Aquí se encuentran las listas.
+using System.Collections.Generic;
+// Tiene un método para pasar de Arreglo a Lista.
+using System.Linq;
+
 namespace Run_Python_From_CSharp
 {
     class RunPythonFromCSharp {
+        private static PythonExecuter pyExecuter;
         static void Main(string[] args)
         {
+            /** Ahora con esta nueva implementación recibiremos los argumentos
+             *      para correr el programa en Python pero desde que corremos
+             *      el programa en C#.
+             * 
+             * *    dotnet run my_solution.sln arg1 arg2 arg3
+            */
+            pyExecuter = new PythonExecuter("python_script/receive_and_print_arguments.py",
+                                                            args.ToList());
+
+            // PARA PROBAR CON EL MÉTODO ANTIGUO.
+            pyExecuter.FirstVersionExecutePythonFromCSharp(args.ToList());
+        }     
+
+        /**
+         * * MÉTODO PARA GUARDAR EL ANTIGUO MAIN ANTES DE MODIFICARLO.
+         * Lo pongo simplemente para no borrarlo, ya que aquí está el concepto
+         *  original de cómo sería el programa.
+        */
+       private static void OldMain(){
             // Console.WriteLine("\nHello, world!\n");
 
             // Mandar el código y los argumentos.
@@ -50,7 +74,7 @@ namespace Run_Python_From_CSharp
              *      presionó.
              */
             Console.ReadKey(false);
-        }     
+       }
 
 /* ----------------- MÉTODO PARA PEDIR ARGUMENTOS AL USUARIO ---------------- */
         private static void AskUserForArguments(ref List<string> args_list) {
