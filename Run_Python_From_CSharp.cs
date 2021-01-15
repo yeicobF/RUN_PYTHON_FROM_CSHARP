@@ -33,34 +33,37 @@ namespace Run_Python_From_CSharp
             //  directorio.
             string pythonScriptName = "python_script/receive_and_print_arguments.py";
             // Agregamos el nombre del programa a la lista de argumentos.
-            args_list.Add(pythonScriptName);
+            // args_list.Add(pythonScriptName);
 
             AskUserForArguments(ref args_list);
             // PrintUserInputArguments(args_list);
 
             PythonExecuter pyExecuter = new PythonExecuter(pythonScriptName, args_list);
 
-            pyExecuter.ExecutePythonFromCSharp();
+            pyExecuter.FirstVersionExecutePythonFromCSharp(args_list);
 
-            Console.ReadKey(); // Esperar a presionar tecla para terminar.
-        }
-
-        
-/* -------------------------------------------------------------------------- */
-/*                    MÉTODO PARA EJECUTAR Python desde C#.                   */
-/* -------------------------------------------------------------------------- */
-       
+            Console.Write("\n\n -> PRESIONA UNA TECLA PARA TERMINAR EL PROGRAMA: ");
+            // Para no brincar línea. No me funcionó.
+            // Console.SetCursorPosition(0, Console.CursorTop);
+            /** Esperar a presionar tecla para terminar.
+             *  Su parámetro es "false" para que se muestre la tecla que se
+             *      presionó.
+             */
+            Console.ReadKey(false);
+        }     
 
 /* ----------------- MÉTODO PARA PEDIR ARGUMENTOS AL USUARIO ---------------- */
         private static void AskUserForArguments(ref List<string> args_list) {
             // Para preguntar si continuar ingresando valores.
             short option = 1; // Represents a 16-bit signed integer.
             for(int argNumber = 1; option == 1; argNumber++){
-                Console.WriteLine("\n -> INGRESA EL ARGUMENTO {0}: ", argNumber);
+                Console.Write("\n -> INGRESA EL ARGUMENTO {0}: ", argNumber);
+                // Para no crear nueva línea. No funcionó.
+                // Console.SetCursorPosition(0, Console.CursorTop);
                 args_list.Add(Console.ReadLine()); // Lo agregamos a la lista.
 
-                Console.WriteLine("\n - ¿Deseas seguir ingresando valores?\n");
-                Console.WriteLine("      1.- Sí, 2.- No.\n");
+                Console.Write("\n\t - ¿Deseas seguir ingresando valores?");
+                Console.Write(" [1.- Sí | 2.- No]: ");
                 // short option: Represents a 16-bit signed integer.
                 option = Convert.ToInt16(Console.ReadLine());
             }
