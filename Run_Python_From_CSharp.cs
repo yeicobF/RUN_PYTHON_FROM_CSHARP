@@ -6,8 +6,8 @@
  * 
  * * Para hacer el programa vi un video en YouTube en donde lo explicaban.
  * * Indicaba que podríamos utilizar 2 métodos:
- *  ! Utilizando procesos
- *  ! Utilizando IronPython, que es Python en .NET.
+ * ! Utilizando procesos
+ * ! Utilizando IronPython, que es Python en .NET.
  * 
  * * Yo decidí utilizar procesos mejor, ya que IronPython al parecer tiene más
  *  limitaciones.
@@ -35,10 +35,10 @@ namespace Run_Python_From_CSharp
              * *    dotnet run my_solution.sln arg1 arg2 arg3
             */
             pyExecuter = new PythonExecuter("python_script/receive_and_print_arguments.py",
-                                                            args.ToList());
+                                            args.ToList());
 
             // PARA PROBAR CON EL MÉTODO ANTIGUO.
-            pyExecuter.FirstVersionExecutePythonFromCSharp(args.ToList());
+            // pyExecuter.FirstVersionExecutePythonFromCSharp(args.ToList());
         }     
 
         /**

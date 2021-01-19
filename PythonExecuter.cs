@@ -2,7 +2,7 @@
  * * PROGRAMA PARA MANEJAR UNA CLASE QUE TRABAJE CON LOS MÉTODOS PARA EJECUTAR
  *      PYTHON DESDE C#.
  * 
- * - Jueves, 14 de enero del 2020.
+ * - Jueves, 14 de enero del 2021.
 */
 using System;
 using System.Diagnostics; // Para los procesos.
@@ -27,6 +27,119 @@ class PythonExecuter {
         this.arguments.InsertRange(1, arguments);
 
         PrintArguments();
+
+        Console.Write("\n\n - PYTHON PATH: [" + GetPythonFromUserEnvironmentVariables() + "]\n\n");
+    }
+    /** MÉTODO DEFINITIVO PARA EJECURAR Python desde C#. */
+    public void ExecutePythonFromCSharp() {
+        // Creamos una variable en donde inicializaremos el proceso.
+        // Para esto hay que utilizar System.Diagnostics.
+        ProcessStartInfo pythonProgramStartInfo = new ProcessStartInfo();
+
+        string pythonPath = GetPythonFromUserEnvironmentVariables();
+
+
+
+
+        // Agregamos la ruta de Python al proceso que correremos.
+        pythonProgramStartInfo.FileName = pythonPath;
+        // 3) PROCESS CONFIGURATION
+        /** No ejecutar en la terminal. Se hace directamente desde el ejecutable.
+         *  true si queremos que se abra la terminal. 
+         * 
+         *  ! Si es true, no se pueden obtener los valores de entrada / salida.*/
+        pythonProgramStartInfo.UseShellExecute = false;
+        // pythonProgramStartInfo.UseShellExecute = true;
+        // Indicar que no queremos crearlo en una nueva ventana.
+        pythonProgramStartInfo.CreateNoWindow = true;
+        // // Indicar que sí queremos obtener el valor que regrese el programa.
+        // pythonProgramStartInfo.RedirectStandardOutput = true;
+        // // Si pasa algún error en el scrip, lo recibiremos.
+        // pythonProgramStartInfo.RedirectStandardError = true;
+        // Indicar que sí queremos obtener el valor que regrese el programa.
+        pythonProgramStartInfo.RedirectStandardOutput = true;
+        // Si pasa algún error en el scrip, lo recibiremos.
+        pythonProgramStartInfo.RedirectStandardError = true;
+
+        // 4) EXECUTE THE PROCESS AND GET OUTPUT.
+        string errors = "";
+        // En resultados se guarda TODO lo que se imprime en el programa.
+        string results = "";
+
+        // Iniciamos el proceso y recibimos los errores y valores de regreso.
+        using (Process pythonProgramRunning = Process.Start(pythonProgramStartInfo))
+        {
+            // Obtener errores y resultados.
+            errors = pythonProgramRunning.StandardError.ReadToEnd();
+            results = pythonProgramRunning.StandardOutput.ReadToEnd();
+        }
+
+        //             /** PARA CREAR TERMINAL.*/
+        //             // Iniciamos el proceso y recibimos los errores y valores de regreso.
+        //             // using(Process pythonProgramRunning = Process.Start(pythonProgramStartInfo)){
+        //             //     // Obtener errores y resultados.
+        //             //     errors = pythonProgramRunning.StandardError.ReadToEnd();
+        //             //     results = pythonProgramRunning.StandardOutput.ReadToEnd();
+        //             // }
+        // 
+        //             Process.Start(pythonProgramStartInfo);
+
+        // 5) DISPLAY OUTPUT
+        Console.WriteLine($"\n - ERRORES: {errors}");
+        Console.WriteLine("\n - RESULTADOS:\n");
+        Console.WriteLine(results);
+    }
+    /** 
+     * * MÉTODO PARA OBTENER PYTHON DESDE LAS VARIABLES DEL SISTEMA. 
+     * 
+     * ! FUENTE: https://stackoverflow.com/questions/3403895/how-to-read-a-user-environment-variable-in-c
+     * 
+     * * Environment.GetEnvironmentVariable(variable, target);
+     *  ! EnvironmentVariableTarget.Process,
+     *  ! EnvironmentVariableTarget.User,
+     *  ! EnvironmentVariableTarget.Machine.
+    */
+    private string GetPythonFromUserEnvironmentVariables() {
+        // Indicar la ruta del ejecutable de Python.
+        string python = "python.exe";
+        string pythonPath = "";
+
+        List<string> pathList = SavePathVariablesInList();
+
+        /* Buscar la variable que contiene la carpeta de Python, pero no la de
+            scripts. */
+        foreach(string path in pathList) {
+            if(path.Contains("Python") && !path.Contains("Scripts"))
+            pythonPath = path + python;
+            break;
+        }
+
+        return pythonPath;
+    }
+    // Método que guardará todas las variables encontradas en una lista.
+    private List<string> SavePathVariablesInList(){
+        // Aquí se obtienen TODAS las variables que se encuentran en "Path".
+        string path = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
+
+        // Meteré todas las variables en una lista y luego obtendré la que busco.
+        List<string> pathList = new List<string>();
+
+        string pathSubstring = "";
+        // Índice del punto y coma.
+        int indexOfSemicolon = 0;
+        // Cada variable termina con un ";".
+        while(path.Contains(";")){
+            indexOfSemicolon = path.IndexOf(";");
+            // Busca desde la primera ocurrencia hasta en donde encuentra el ";".
+            // Con Trim() quitamos los espacios que queden al inicio o final.
+            pathSubstring = path.Substring(0, indexOfSemicolon).Trim();
+            pathList.Add(pathSubstring);
+
+            // Quitamos la variable guardada en la lista.
+            path = path.Substring(indexOfSemicolon, path.Length - indexOfSemicolon);
+        }
+
+        return pathList;
     }
     // Método para imprimir los argumentos del constructor.
     void PrintArguments(){
