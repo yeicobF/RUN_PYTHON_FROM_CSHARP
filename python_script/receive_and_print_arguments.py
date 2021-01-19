@@ -25,7 +25,7 @@ def main():
 # ------- MÉTODO EN DONDE SE IMPRIME LA LISTA DE ARGUMENTOS RECIBIDOS. ------- #
 def print_received_args(args_list):
     # El último argumento indicará el número de instancia de Python que corre.
-    print("\n - This was Process number: {}".format(args_list[ len(args_list) - 1]))
+    print("\n - [This was Process number: {}]".format(args_list[ len(args_list) - 1]))
     print("\n - [{}] The name of the program is: {}. ".format(args_list[ len(args_list) - 1 ], args_list[0]),
           "This will not count as an argument.")
     # El último argumento no cuenta porque es el número de proceso.

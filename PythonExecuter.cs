@@ -88,7 +88,15 @@ class PythonExecuter {
 
         Console.WriteLine($"\n - CORRERÁN {numberOfInstances} INSTANCIAS DE PYTHON -\n");
         // Creamos los procesos.
-        for(int i = 0, timeToExitMS = 1000 * 60 * 5; i < numberOfInstances; i++, timeToExitMS -= 10000){
+        /** ESTE CICLO DEBO EJECUTARLO EN DIFERENTES PROCESOS, YA QUE SI LO
+         *  EJECUTO AQUÍ, CADA SIGUIENTE PROCESO DEBERÁ A ESPERAR A QUE EL ANTERIOR
+         *  TERMINE. O PODRÍA SIMPLEMENTE CREAR LOS PROCESOS, PERO EL ESPERAR LOS
+         *  VALORES QUE SEA EN OTRO CICLO DISTINTO.
+         * 
+         * * AQUÍ NO OBTENEMOS RESULTADOS, YA QUE EL PROGRAMA ESTARÍA ESPERANDO
+         *      A QUE TERMINE UN PROCESO PARA REGISTRAR SUS VALORES, Y LUEGO
+         *      PROCEDER A INICIALIZAR Y GUARDAR LOS VALORES DE OTRO.*/
+        for(int i = 0; i < numberOfInstances; i++){
             /** Agregar el número de proceso antes de correrlo. 
              *  * Hay que utilizar el método "Insert" en la última posición de
              *      la lista para sustituir el número del programa anterior.
@@ -103,10 +111,6 @@ class PythonExecuter {
             // Indicar tiempo para que el proceso termine en milisegundos.
             // NO FUNCIONÓ.
             // pythonProgramRunning[i].WaitForExit(timeToExitMS);
-            // Obtener errores y resultados.
-            PID[i] = pythonProgramRunning[i].Id; // PID DEL PROCESO.
-            errors[i] = pythonProgramRunning[i].StandardError.ReadToEnd();
-            results[i] = pythonProgramRunning[i].StandardOutput.ReadToEnd();
         }
 
         /** 
@@ -128,12 +132,18 @@ class PythonExecuter {
             // Cuando el número del proceso sea igual al de instancias, el valor
             // se volverá igual a 0 y reiniciará.
             processNumber %= numberOfInstances;
-
+            // Console.Write($"[PROCESS NUMBER: {processNumber}] ");
             // Revisar si el proceso ya se revisó con anterioridad.
             // Si no se ha revisado, podemos ver si ya terminó.
             if(!foundProcessesPID.Contains(pythonProgramRunning[processNumber].Id))
                 // Revisar si un proceso ya terminó.
                 if(pythonProgramRunning[processNumber].HasExited) {
+
+                    // OBTENEMOS RESULTADOS DEL PROCESO QUE TERMINÓ.
+                    PID[processNumber] = pythonProgramRunning[processNumber].Id; // PID DEL PROCESO.
+                    errors[processNumber] = pythonProgramRunning[processNumber].StandardError.ReadToEnd();
+                    results[processNumber] = pythonProgramRunning[processNumber].StandardOutput.ReadToEnd();
+
                     PrintFinishedPythonInfo(processNumber, errors, results, PID);
                     foundProcessesPID.Add(pythonProgramRunning[processNumber].Id);
                     finishedProcesses++;
@@ -151,7 +161,7 @@ class PythonExecuter {
                                          string[] errors, string[] results,
                                          int[] PID) {
         Console.Write("\n ---------------------");
-        Console.Write("\n PYTHON PROCESS PID: \n" + PID[numberOfProgram]);
+        Console.Write($"\n PYTHON PROCESS PID: {PID[numberOfProgram]}\n");
 
         Console.WriteLine($"\n\t - ERRORES: {errors[numberOfProgram]}");
         Console.WriteLine("\n\t - RESULTADOS:\n");
