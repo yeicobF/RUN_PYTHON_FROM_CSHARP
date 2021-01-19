@@ -37,6 +37,125 @@ class PythonExecuter {
 
         // Console.Write("\n\n - PYTHON PATH: [" + GetPythonFromPathEnvironmentVariables() + "]\n\n");
     }
+
+    /** MÉTODO QUE EJECUTA N INSTANCIAS DISTINTAS DE PYTHON. */
+    public int ExecutePythonFromCSharp(int numberOfInstances) {
+        // Creamos una variable en donde inicializaremos el proceso.
+        // Para esto hay que utilizar System.Diagnostics.
+        ProcessStartInfo pythonProgramStartInfo = new ProcessStartInfo();
+        string pythonPath = "";
+
+        // Si el método regresa una cadena vacía significa que no encontró la
+        //  variable del sistema para Python.
+        if ((pythonPath = GetPythonFromPathEnvironmentVariables()) == "")
+            return -1;
+
+        // Agregamos la ruta de Python al proceso que correremos.
+        pythonProgramStartInfo.FileName = pythonPath;
+        // 3) PROCESS CONFIGURATION
+        /** No ejecutar en la terminal. Se hace directamente desde el ejecutable.
+         *  true si queremos que se abra la terminal. 
+         * 
+         *  ! Si es true, no se pueden obtener los valores de entrada / salida.*/
+        pythonProgramStartInfo.UseShellExecute = false;
+        // pythonProgramStartInfo.UseShellExecute = true;
+        // Indicar que no queremos crearlo en una nueva ventana.
+        pythonProgramStartInfo.CreateNoWindow = true;
+        // // Indicar que sí queremos obtener el valor que regrese el programa.
+        // pythonProgramStartInfo.RedirectStandardOutput = true;
+        // // Si pasa algún error en el scrip, lo recibiremos.
+        // pythonProgramStartInfo.RedirectStandardError = true;
+        // Indicar que sí queremos obtener el valor que regrese el programa.
+        pythonProgramStartInfo.RedirectStandardOutput = true;
+        // Si pasa algún error en el scrip, lo recibiremos.
+        pythonProgramStartInfo.RedirectStandardError = true;
+
+        // INICIALIZAR ARREGLOS DE VALORES A OBTENER.
+        string[] errors = new string[numberOfInstances];
+        // En resultados se guarda TODO lo que se imprime en el programa.
+        string[] results = new string[numberOfInstances];
+        int[] PID = new int[numberOfInstances];
+
+        // Agregamos los argumentos a la lista de argumentos.
+        foreach (string arg in arguments)
+            pythonProgramStartInfo.ArgumentList.Add(arg);
+        // Ampliar la lista por un espacio para que se pueda agregar el número
+        //  de instancia.
+        pythonProgramStartInfo.ArgumentList.Add("");
+
+        // Arreglo de procesos.
+        Process[] pythonProgramRunning = new Process[numberOfInstances];
+
+        Console.WriteLine($"\n - CORRERÁN {numberOfInstances} INSTANCIAS DE PYTHON -\n");
+        // Creamos los procesos.
+        for(int i = 0; i < numberOfInstances; i++){
+            /** Agregar el número de proceso antes de correrlo. 
+             *  * Hay que utilizar el método "Insert" en la última posición de
+             *      la lista para sustituir el número del programa anterior.
+             * 
+             * ! LO ANTERIOR ES INCORRECTO, YA QUE SE INSERTAN Y SE RECORREN
+             * ! LOS DEMÁS VALORES.
+             * 
+             * * HAY QUE UTILIZAR UNA ASIGNACIÓN.
+            */
+            pythonProgramStartInfo.ArgumentList[arguments.Count] = i.ToString();
+            pythonProgramRunning[i] = Process.Start(pythonProgramStartInfo);
+            // Obtener errores y resultados.
+            PID[i] = pythonProgramRunning[i].Id; // PID DEL PROCESO.
+            errors[i] = pythonProgramRunning[i].StandardError.ReadToEnd();
+            results[i] = pythonProgramRunning[i].StandardOutput.ReadToEnd();
+        }
+
+        /** 
+         * * IMPRIMIR LA INFORMACIÓN DE CADA PROCESO. HACERLO CUANDO TERMINE UN
+         * * PROCESO.
+         * 
+         * ! Esto se logra con el método "Exited", que indicará cuando un proceso
+         *      terminó. Así podré revisar sin tener que esperar a que alguno
+         *      termine.
+         * ! El PROBLEMA es que esto es con eventos, pero creo que puedo
+         *      utilizar el atributo "HasExited"
+         * 
+         * ? FUENTE: https://stackoverflow.com/questions/3147911/wait-until-a-process-ends
+        */
+       int processNumber = 0, finishedProcesses = 0;
+       // LISTA DE NÚMEROS DE PROCESOS ENCONTRADOS.
+       List<int> foundProcessesPID = new List<int>(numberOfInstances);
+        for(; finishedProcesses != numberOfInstances; processNumber++){
+            // Cuando el número del proceso sea igual al de instancias, el valor
+            // se volverá igual a 0 y reiniciará.
+            processNumber %= numberOfInstances;
+
+            // Revisar si el proceso ya se revisó con anterioridad.
+            // Si no se ha revisado, podemos ver si ya terminó.
+            if(!foundProcessesPID.Contains(pythonProgramRunning[processNumber].Id))
+                // Revisar si un proceso ya terminó.
+                if(pythonProgramRunning[processNumber].HasExited) {
+                    PrintFinishedPythonInfo(processNumber, errors, results, PID);
+                    foundProcessesPID.Add(pythonProgramRunning[processNumber].Id);
+                    finishedProcesses++;
+                }
+        }
+
+
+        // Indicar que todo salió bien.
+        return 0;
+    }
+    /** MÉTODO QUE IMPRIME LA INFORMACIÓN DE UN PROGRAMA DE PYTHON QUE YA
+     *  TERMINÓ.
+    */
+    private void PrintFinishedPythonInfo(int numberOfProgram,
+                                         string[] errors, string[] results,
+                                         int[] PID) {
+        Console.Write("\n ---------------------");
+        Console.Write("\n PYTHON PROCESS PID: " + PID[numberOfProgram]);
+
+        Console.WriteLine($"\n\t - ERRORES: {errors[numberOfProgram]}");
+        Console.WriteLine("\n\t - RESULTADOS:\n");
+        Console.WriteLine(results[numberOfProgram]);
+        Console.Write("\n ---------------------");
+    }
+
     /** MÉTODO DEFINITIVO PARA EJECURAR Python desde C#. 
      * 
      * * REGRESA -1 SI NO ENCUENTRA PYTHON EN LAS VARIABLES DEL SISTEMA O DEL
@@ -84,6 +203,8 @@ class PythonExecuter {
         // Agregamos los argumentos a la lista de argumentos.
         foreach(string arg in arguments)
             pythonProgramStartInfo.ArgumentList.Add(arg);
+        // Indico que es la instancia 0.
+        pythonProgramStartInfo.ArgumentList.Add("0");
 
         // Iniciamos el proceso y recibimos los errores y valores de regreso.
         using (Process pythonProgramRunning = Process.Start(pythonProgramStartInfo))

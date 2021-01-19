@@ -37,8 +37,10 @@ namespace Run_Python_From_CSharp
             pyExecuter = new PythonExecuter("python_script/receive_and_print_arguments.py",
                                             args.ToList());
 
+            // AQUÍ SOLO CORRE UNA INSTANCIA.
             pyExecuter.ExecutePythonFromCSharp();
-
+            // AQUÍ CORRE LAS INSTANCIAR INDICADAS EN EL PARÁMETRO.
+            pyExecuter.ExecutePythonFromCSharp(6);
 
             // PARA PROBAR CON EL MÉTODO ANTIGUO.
             // pyExecuter.FirstVersionExecutePythonFromCSharp(args.ToList());
