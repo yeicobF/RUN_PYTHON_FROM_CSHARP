@@ -37,8 +37,20 @@ namespace Run_Python_From_CSharp
             pyExecuter = new PythonExecuter("python_script/receive_and_print_arguments.py",
                                             args.ToList());
 
+            pyExecuter.ExecutePythonFromCSharp();
+
+
             // PARA PROBAR CON EL MÉTODO ANTIGUO.
             // pyExecuter.FirstVersionExecutePythonFromCSharp(args.ToList());
+
+            Console.Write("\n\n -> PRESIONA UNA TECLA PARA TERMINAR EL PROGRAMA: ");
+            // Para no brincar línea. No me funcionó.
+            // Console.SetCursorPosition(0, Console.CursorTop);
+            /** Esperar a presionar tecla para terminar.
+             *  Su parámetro es "false" para que se muestre la tecla que se
+             *      presionó.
+             */
+            Console.ReadKey(false);
         }     
 
         /**

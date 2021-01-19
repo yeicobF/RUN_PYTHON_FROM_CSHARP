@@ -26,7 +26,7 @@ class PythonExecuter {
          *      el índice indicado.*/
         this.arguments.InsertRange(1, arguments);
 
-        PrintArguments();
+        // PrintArguments();
 
         // Si no se encuentra Python en el sistema, terminar programa.
         // Esto iría en el método de ejecutar Python.
@@ -35,18 +35,25 @@ class PythonExecuter {
         //     return -1;
         // }
 
-        Console.Write("\n\n - PYTHON PATH: [" + GetPythonFromPathEnvironmentVariables() + "]\n\n");
+        // Console.Write("\n\n - PYTHON PATH: [" + GetPythonFromPathEnvironmentVariables() + "]\n\n");
     }
-    /** MÉTODO DEFINITIVO PARA EJECURAR Python desde C#. */
-    public void ExecutePythonFromCSharp() {
+    /** MÉTODO DEFINITIVO PARA EJECURAR Python desde C#. 
+     * 
+     * * REGRESA -1 SI NO ENCUENTRA PYTHON EN LAS VARIABLES DEL SISTEMA O DEL
+     * USUARIO, POR LO QUE EL PROGRAMA TERMINARÍA.
+     * 
+     * * REGRESA 0 SI EL PROGRAMA TERMINA SIN ERRORES.
+    */
+    public int ExecutePythonFromCSharp() {
         // Creamos una variable en donde inicializaremos el proceso.
         // Para esto hay que utilizar System.Diagnostics.
         ProcessStartInfo pythonProgramStartInfo = new ProcessStartInfo();
+        string pythonPath = "";
 
-        string pythonPath = GetPythonFromPathEnvironmentVariables();
-
-
-
+        // Si el método regresa una cadena vacía significa que no encontró la
+        //  variable del sistema para Python.
+        if((pythonPath = GetPythonFromPathEnvironmentVariables()) == "")
+            return -1;
 
         // Agregamos la ruta de Python al proceso que correremos.
         pythonProgramStartInfo.FileName = pythonPath;
@@ -72,11 +79,17 @@ class PythonExecuter {
         string errors = "";
         // En resultados se guarda TODO lo que se imprime en el programa.
         string results = "";
+        int PID = -1;
+
+        // Agregamos los argumentos a la lista de argumentos.
+        foreach(string arg in arguments)
+            pythonProgramStartInfo.ArgumentList.Add(arg);
 
         // Iniciamos el proceso y recibimos los errores y valores de regreso.
         using (Process pythonProgramRunning = Process.Start(pythonProgramStartInfo))
         {
             // Obtener errores y resultados.
+            PID = pythonProgramRunning.Id; // PID DEL PROCESO.
             errors = pythonProgramRunning.StandardError.ReadToEnd();
             results = pythonProgramRunning.StandardOutput.ReadToEnd();
         }
@@ -92,9 +105,14 @@ class PythonExecuter {
         //             Process.Start(pythonProgramStartInfo);
 
         // 5) DISPLAY OUTPUT
-        Console.WriteLine($"\n - ERRORES: {errors}");
-        Console.WriteLine("\n - RESULTADOS:\n");
+        Console.Write("\n PYTHON PROCESS PID: " + PID);
+
+        Console.WriteLine($"\n\t - ERRORES: {errors}");
+        Console.WriteLine("\n\t - RESULTADOS:\n");
         Console.WriteLine(results);
+
+        // Indicar que todo salió bien.
+        return 0;
     }
     /** 
      * * MÉTODO PARA OBTENER PYTHON DESDE LAS VARIABLES DEL SISTEMA. 
