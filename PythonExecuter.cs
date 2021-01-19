@@ -88,7 +88,7 @@ class PythonExecuter {
 
         Console.WriteLine($"\n - CORRERÁN {numberOfInstances} INSTANCIAS DE PYTHON -\n");
         // Creamos los procesos.
-        for(int i = 0; i < numberOfInstances; i++){
+        for(int i = 0, timeToExitMS = 1000 * 60 * 5; i < numberOfInstances; i++, timeToExitMS -= 10000){
             /** Agregar el número de proceso antes de correrlo. 
              *  * Hay que utilizar el método "Insert" en la última posición de
              *      la lista para sustituir el número del programa anterior.
@@ -100,6 +100,9 @@ class PythonExecuter {
             */
             pythonProgramStartInfo.ArgumentList[arguments.Count] = i.ToString();
             pythonProgramRunning[i] = Process.Start(pythonProgramStartInfo);
+            // Indicar tiempo para que el proceso termine en milisegundos.
+            // NO FUNCIONÓ.
+            // pythonProgramRunning[i].WaitForExit(timeToExitMS);
             // Obtener errores y resultados.
             PID[i] = pythonProgramRunning[i].Id; // PID DEL PROCESO.
             errors[i] = pythonProgramRunning[i].StandardError.ReadToEnd();
@@ -148,7 +151,7 @@ class PythonExecuter {
                                          string[] errors, string[] results,
                                          int[] PID) {
         Console.Write("\n ---------------------");
-        Console.Write("\n PYTHON PROCESS PID: " + PID[numberOfProgram]);
+        Console.Write("\n PYTHON PROCESS PID: \n" + PID[numberOfProgram]);
 
         Console.WriteLine($"\n\t - ERRORES: {errors[numberOfProgram]}");
         Console.WriteLine("\n\t - RESULTADOS:\n");
