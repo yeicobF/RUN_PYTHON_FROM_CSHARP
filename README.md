@@ -9,3 +9,6 @@ manden directamente vía terminar a C#.
 - Además, puede correr tanto una instancia como "n" número de instancias.
   Esto permite una mayor diversidad de opciones para utilizar como
   recurso en proyectos a futuro.
+
+# TERMINADO EN ESCENCIA EL:
+- Martes, 19 de enero del 2021
