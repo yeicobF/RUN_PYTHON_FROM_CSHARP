@@ -135,8 +135,12 @@ class PythonExecuter {
             pathSubstring = path.Substring(0, indexOfSemicolon).Trim();
             pathList.Add(pathSubstring);
 
-            // Quitamos la variable guardada en la lista.
-            path = path.Substring(indexOfSemicolon, path.Length - indexOfSemicolon);
+            /** Quitamos la variable guardada en la lista.
+             * Tuve que empezar la subcadena desde el índice 1 porque en el 0 se
+             *  guardaba el punto y coma (";") que quedaba por empezar desde su
+             *  subíndice en la cadena.
+            */
+            path = path.Substring(indexOfSemicolon + 1, path.Length - indexOfSemicolon - 1);
         }
 
         return pathList;
