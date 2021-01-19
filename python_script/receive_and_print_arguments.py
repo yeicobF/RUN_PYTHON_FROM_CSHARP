@@ -6,7 +6,7 @@
 # 2.- RECIBE LOS ARGUMENTOS A MOSTRAR.
 # 3.- RECIBE EL NÚMERO DE INSTANCIA/PROCESO QUE CORRE ESTE PROGRAMA.
 # 
-# SOLO SE IMRPIMEN LOS ARGUMENTOS DE LA SEGUNDA SECCIÓN.
+# SOLO SE IMRPIMEN LOS ARGUMENTOS DE LA PRIMERA Y SEGUNDA SECCIÓN.
 
 import sys # Para poder recibir argumentos de la terminal.
 from random import randint # Números random.
