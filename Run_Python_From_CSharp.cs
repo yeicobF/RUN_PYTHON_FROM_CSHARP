@@ -14,6 +14,10 @@
  * LINK: https://www.youtube.com/watch?v=g1VWGdHRkHs&ab_channel=AllTech
  *  
  * * Martes, 12 de enero del 2020.
+ * 
+ * - TERMINADO CON LO NECESARIO (MÚLTIPLES PROCESOS Y ESPERARLOS):
+ *      Martes, 19 de enero del 2021 [02:41 AM]
+ * 
 */
 
 using System;

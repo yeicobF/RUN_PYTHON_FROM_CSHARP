@@ -3,6 +3,9 @@
  *      PYTHON DESDE C#.
  * 
  * - Jueves, 14 de enero del 2021.
+ * 
+ * - TERMINADO CON LO NECESARIO (MÚLTIPLES PROCESOS Y ESPERARLOS):
+ *      Martes, 19 de enero del 2021 [02:41 AM]
 */
 using System;
 using System.Diagnostics; // Para los procesos.
