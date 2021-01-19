@@ -28,7 +28,14 @@ class PythonExecuter {
 
         PrintArguments();
 
-        Console.Write("\n\n - PYTHON PATH: [" + GetPythonFromUserEnvironmentVariables() + "]\n\n");
+        // Si no se encuentra Python en el sistema, terminar programa.
+        // Esto iría en el método de ejecutar Python.
+        // if(GetPythonFromPathEnvironmentVariables() == ""){
+        //     Console.WriteLine(" \n - PYTHON WAS NOT FOUND IN SYSTEM -\n")
+        //     return -1;
+        // }
+
+        Console.Write("\n\n - PYTHON PATH: [" + GetPythonFromPathEnvironmentVariables() + "]\n\n");
     }
     /** MÉTODO DEFINITIVO PARA EJECURAR Python desde C#. */
     public void ExecutePythonFromCSharp() {
@@ -36,7 +43,7 @@ class PythonExecuter {
         // Para esto hay que utilizar System.Diagnostics.
         ProcessStartInfo pythonProgramStartInfo = new ProcessStartInfo();
 
-        string pythonPath = GetPythonFromUserEnvironmentVariables();
+        string pythonPath = GetPythonFromPathEnvironmentVariables();
 
 
 
@@ -99,11 +106,40 @@ class PythonExecuter {
      *  ! EnvironmentVariableTarget.User,
      *  ! EnvironmentVariableTarget.Machine.
     */
-    private string GetPythonFromUserEnvironmentVariables() {
+    private string GetPythonFromPathEnvironmentVariables() {
         // Indicar la ruta del ejecutable de Python.
         string python = "python.exe", pythonPath = "";
+        // Variables del usuario.
+        // Aquí se obtienen TODAS las variables que se encuentran en "Path" del usuario.
+        string userPath = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
+        // Variable "Path" del sistema completo.
+        string systemPath = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.Machine);
 
-        List<string> pathList = SavePathVariablesInList();
+        // Lista de variables en Path. 
+        List<string> pathList;
+        /** - Si regresa una lista de tamaño 0, entonces no se encuentra "Python"
+         *  ahí.
+         * - Si regresa una lista con mayor tamaño a 0, entonces sí se encuentra
+         *  la variable "Python" en la lista de variables.
+        */
+        if((pathList = SavePathVariablesInList(systemPath)).Count == 0) {
+            Console.Write("\n -----------------------------------------------------\n");
+            Console.Write("\n - Python NOT found in [SYSTEM] environment variables.\n");
+            Console.Write("\n -----------------------------------------------------\n");
+            Console.Write("\n - Searching Python in [USER] environment variables.\n");
+            if ((pathList = SavePathVariablesInList(userPath)).Count == 0) {
+                Console.Write("\n -----------------------------------------------------\n");
+                Console.Write("\n - Python NOT found in [USER] environment variables.\n");
+                Console.Write("\n\n - CANNOT CONTINUE. PYTHON WAS NOT FOUND. -\n\n");
+                Console.Write("\n -----------------------------------------------------\n");
+                return "";
+            }
+            else
+                Console.Write("\n\t - Python was found in USER environment variables!\n");
+        }
+        else
+            Console.Write("\n\t - Python was found in SYSTEM environment variables!\n");
+        Console.Write("\n -----------------------------------------------------\n");
 
         /* Buscar la variable que contiene la carpeta de Python, pero no la de
             scripts. */
@@ -116,11 +152,16 @@ class PythonExecuter {
 
         return pythonPath;
     }
-    // Método que guardará todas las variables encontradas en una lista.
-    private List<string> SavePathVariablesInList(){
-        // Aquí se obtienen TODAS las variables que se encuentran en "Path".
-        string path = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.User);
-
+    /** Método que guardará todas las variables encontradas en una lista.
+     * Va a recibir la variable Path, y esta puede ser tanto del usuario como la
+     *  del sistema. Así si no está en una localización, que la busque en otra.
+    */
+    private List<string> SavePathVariablesInList(string path){
+        /** Si la variable contiene las carpetas de Python, entonces seguir.
+         *  Si no contiene Python, regresar una cadena vacía indicándolo. */
+        if(!path.Contains("Python"))
+            return new List<string>(0);
+        
         // Meteré todas las variables en una lista y luego obtendré la que busco.
         List<string> pathList = new List<string>();
 
