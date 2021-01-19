@@ -101,17 +101,17 @@ class PythonExecuter {
     */
     private string GetPythonFromUserEnvironmentVariables() {
         // Indicar la ruta del ejecutable de Python.
-        string python = "python.exe";
-        string pythonPath = "";
+        string python = "python.exe", pythonPath = "";
 
         List<string> pathList = SavePathVariablesInList();
 
         /* Buscar la variable que contiene la carpeta de Python, pero no la de
             scripts. */
         foreach(string path in pathList) {
-            if(path.Contains("Python") && !path.Contains("Scripts"))
-            pythonPath = path + python;
-            break;
+            if(path.Contains("Python") && !path.Contains("Scripts")){
+                pythonPath = path + python;
+                break;
+            }
         }
 
         return pythonPath;
